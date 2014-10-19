@@ -51,8 +51,18 @@
    :geometry {:type "Point"
               :coordinates (coordinates (zip/node wpt))}})
 
+(defn- route [rte]
+  (let [points (xzip/xml-> rte :rtept)]
+    {:type "Feature"
+     :properties {:name (xzip/xml1-> rte
+                                     :name xzip/text)}
+     :geometry {:type "LineString"
+                :coordinates (map coordinates
+                                  (map zip/node points))}}))
+
 (defn- feature [f]
   (match (:tag (zip/node f))
+    :rte (route f)
     :wpt (waypoint f)
     :trk (track f)))
 
@@ -63,7 +73,7 @@
   (let [gpx (-> xml
               (xml/parse)
               (zip/xml-zip))]
-    (mapcat #(features-for-tag gpx %1) [:wpt :trk])))
+    (mapcat #(features-for-tag gpx %1) [:wpt :trk :rte])))
 
 (defn parse [xml]
   {:type "FeatureCollection"

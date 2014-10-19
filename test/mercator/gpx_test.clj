@@ -5,6 +5,22 @@
   (:use midje.sweet))
 
 (facts "about gpx parsing"
+  (fact "a route can be extracted as a line string feature"
+    (-> "test/gpx/route.gpx"
+      (io/resource)
+      (io/input-stream)
+      (gpx/parse))
+    => {:type "FeatureCollection"
+        :features [{:type "Feature"
+                    :properties {:name "Way to Mordor"}
+                    :geometry {:type "LineString"
+                               :coordinates [[90.86062421614008
+                                              34.9328621088893
+                                              0.0]
+                                             [90.86092208681491
+                                              24.93293237320851
+                                              0.0]]}}]})
+
   (fact "a waypoint can be extracted as a point feature"
     (-> "test/gpx/waypoint.gpx"
       (io/resource)
