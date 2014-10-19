@@ -44,15 +44,26 @@
                  (single-segment trk)
                  (multi-segment trk))}))
 
-(defn- gpx->geojson [feature]
-  (match (:tag feature)
-    [:trk] (track feature)))
+(defn- waypoint [wpt]
+  {:type "Feature"
+   :properties {:name (xzip/xml1-> wpt
+                                   :name xzip/text)}
+   :geometry {:type "Point"
+              :coordinates (coordinates (zip/node wpt))}})
+
+(defn- feature [f]
+  (match (:tag (zip/node f))
+    :wpt (waypoint f)
+    :trk (track f)))
+
+(defn- features-for-tag [gpx tag]
+  (map feature (xzip/xml-> gpx (xzip/tag= tag))))
 
 (defn- features [xml]
   (let [gpx (-> xml
               (xml/parse)
               (zip/xml-zip))]
-    (map track (xzip/xml-> gpx :trk))))
+    (mapcat #(features-for-tag gpx %1) [:wpt :trk])))
 
 (defn parse [xml]
   {:type "FeatureCollection"

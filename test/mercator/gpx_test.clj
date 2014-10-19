@@ -5,6 +5,19 @@
   (:use midje.sweet))
 
 (facts "about gpx parsing"
+  (fact "a waypoint can be extracted as a point feature"
+    (-> "test/gpx/waypoint.gpx"
+      (io/resource)
+      (io/input-stream)
+      (gpx/parse))
+    => {:type "FeatureCollection"
+        :features [{:type "Feature"
+                    :properties {:name "End of Starlight Tunnel"}
+                    :geometry {:type "Point"
+                               :coordinates [150.28315999545157,
+                                             -33.15484598278999,
+                                             684.0]}}]})
+
   (fact "a track with more than on segment is a multi line string feature"
     (-> "test/gpx/track-segs.gpx"
       (io/resource)
