@@ -4,11 +4,9 @@
         <name>Arethusa Canyon (Alpheus Exit)</name>
         <trkseg>
             <trkpt lat="-33.669379418715835" lon="150.34908089786768">
-                <ele>895.120000000000005</ele>
                 <time>2014-09-26T23:27:55Z</time>
             </trkpt>
             <trkpt lat="-33.669372377917171" lon="150.349082155153155">
-                <ele>898.970000000000027</ele>
                 <time>2014-09-26T23:27:58Z</time>
             </trkpt>
         </trkseg>

@@ -14,18 +14,35 @@
         lat (get-in point [:attrs :lat])
         elevation (first
                     (xzip/xml-> (zip/xml-zip point) :ele xzip/text))]
-    [(parse-double lon)
-     (parse-double lat)
-     (parse-double elevation)]))
+    (into []
+          (remove nil?  [(parse-double lon)
+                         (parse-double lat)
+                         (when elevation
+                           (parse-double elevation))]))))
+
+(defn- segment-coords [seg]
+  (let [points (xzip/xml-> seg :trkpt)]
+    (map coordinates
+         (map zip/node points))))
+
+(defn- single-segment [trk]
+  (let [segment (xzip/xml1-> trk :trkseg)]
+     {:type "LineString"
+      :coordinates (segment-coords segment)}))
+
+(defn- multi-segment [trk]
+  (let [segments (xzip/xml-> trk :trkseg)]
+    {:type "MultiLineString"
+     :coordinates (map segment-coords segments)}))
 
 (defn- track [trk]
-  (let [points (xzip/xml-> trk :trkseg :trkpt)]
+  (let [segments (xzip/xml-> trk :trkseg)]
     {:type "Feature"
      :properties {:name (xzip/xml1-> trk
                                      :name xzip/text)}
-     :geometry {:type "LineString"
-                :coordinates (map coordinates
-                                  (map zip/node points))}}))
+     :geometry (if (= (count segments) 1)
+                 (single-segment trk)
+                 (multi-segment trk))}))
 
 (defn- gpx->geojson [feature]
   (match (:tag feature)
