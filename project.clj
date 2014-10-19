@@ -1,7 +1,11 @@
-(defproject mercator "0.1.0"
+(defproject mercator "0.1.0-SNAPSHOT"
   :description "Mercator parses KML, and GPX files into a geojson structure"
   :url "http://github.com/samfoo"
   :min-lein-version "2.1.2"
+
+  :license {:name "GPLv3"
+            :url "http://www.gnu.org/copyleft/gpl.html"}
+
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.1"]
