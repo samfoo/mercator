@@ -1,4 +1,4 @@
-(defproject mercator "0.1.0-SNAPSHOT"
+(defproject mercator "0.1.1"
   :description "Mercator parses KML, and GPX files into a geojson structure"
   :url "http://github.com/samfoo"
   :min-lein-version "2.1.2"
