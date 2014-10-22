@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+    <Placemark>
+        <name>Red Team's Flag</name>
+        <visibility>1</visibility>
+        <Point>
+            <coordinates>
+                -86.1296598,38.8760649,260
+            </coordinates>
+        </Point>
+    </Placemark>
+</kml>
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+    <Placemark>
+        <name>Secret Location of Death Star</name>
+        <visibility>1</visibility>
+        <LineString>
+            <altitudeMode>relativeToGround</altitudeMode>
+            <coordinates>
+                -86.1296598,38.8760649,260
+                -97.7430608,30.267153,260
+            </coordinates>
+        </LineString>
+    </Placemark>
+</kml>
